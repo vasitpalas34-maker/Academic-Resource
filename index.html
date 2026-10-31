@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Resources Portal - Chapterwise PDF Notes</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-blue: #0b3c5d;
+            --accent-orange: #f36f21;
+            --bg-overlay: rgba(11, 28, 44, 0.90);
+            --card-radius: 14px;
+            --text-dark: #1d2d3d;
+            --text-muted: #627182;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                        url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat fixed;
+            min-height: 100vh;
+            color: #ffffff;
+            padding: 30px 20px;
+        }
+
+        .portal-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* Header Title */
+        .portal-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .portal-header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        /* Search Bar */
+        .search-box {
+            display: flex;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 16px 20px;
+            border: none;
+            outline: none;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+        }
+
+        .search-btn {
+            background: var(--accent-orange);
+            border: none;
+            width: 70px;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-btn:hover {
+            background: #d85c12;
+        }
+
+        /* Main Content Layout */
+        .portal-grid {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 25px;
+        }
+
+        /* Filter Sidebar */
+        .filter-sidebar {
+            background: #ffffff;
+            border-radius: var(--card-radius);
+            padding: 20px;
+            color: var(--text-dark);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            height: fit-content;
+        }
+
+        .filter-group {
+            margin-bottom: 18px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            color: var(--text-dark);
+            text-transform: uppercase;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            background: #ffffff;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Subject Cards Grid */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* Redesigned Card Component */
+        .subject-card {
+            position: relative;
+            height: 180px;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 18px;
+            color: #ffffff;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Dark Gradient Overlay for Readability */
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(11, 28, 44, 0.4) 0%, rgba(11, 28, 44, 0.88) 100%);
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.45);
+        }
+
+        .subject-card:hover::before {
+            background: linear-gradient(180deg, rgba(11, 28, 44, 0.3) 0%, rgba(11, 28, 44, 0.94) 100%);
+        }
+
+        .card-top {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .pdf-badge {
+            background: rgba(243, 111, 33, 0.9);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .card-bottom {
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .card-desc {
+            font-size: 0.78rem;
+            color: #e2e8f0;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .action-arrow {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            background: var(--accent-orange);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            transition: transform 0.2s ease;
+            z-index: 2;
+        }
+
+        .subject-card:hover .action-arrow {
+            transform: translateX(3px);
+        }
+
+        /* Specific Card Background Images */
+        .card-geography { background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=600&q=80'); }
+        .card-math { background-image: url('https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=600&q=80'); }
+        .card-history { background-image: url('https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=600&q=80'); }
+        .card-physics { background-image: url('https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?auto=format&fit=crop&w=600&q=80'); }
+        .card-biology { background-image: url('https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&w=600&q=80'); }
+        .card-cs { background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80'); }
+        .card-eco { background-image: url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=600&q=80'); }
+        .card-sociology { background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80'); }
+        .card-literature { background-image: url('https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=600&q=80'); }
+        .card-art { background-image: url('https://is1-ssl.mzstatic.com/image/thumb/Podcasts125/v4/ab/c7/1b/abc71b49-7fe3-2bff-0dff-683dce0dee16/mza_11446468643217099530.png/1200x1200bf-60.jpg'); }
+
+        /* CHAPTERWISE MODAL DIALOG */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .chapter-modal {
+            background: #ffffff;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-dark);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h2 {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-modal-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .chapter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chapter-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .chapter-item:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .chapter-details h4 {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .chapter-details p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .chapter-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-view-pdf, .btn-download-pdf {
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+            color: white;
+        }
+
+        .btn-view-pdf { background: var(--primary-blue); }
+        .btn-view-pdf:hover { background: #082a42; }
+
+        .btn-download-pdf { background: var(--accent-orange); }
+        .btn-download-pdf:hover { background: #d85c12; }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .portal-grid { grid-template-columns: 220px 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .portal-grid { grid-template-columns: 1fr; }
+            .chapter-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .chapter-actions { width: 100%; }
+            .btn-view-pdf, .btn-download-pdf { flex: 1; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="portal-container">
+        <!-- Main Portal Header -->
+        <header class="portal-header">
+            <h1>NCERT Textbooks & PDF Notes</h1>
+        </header>
+
+        <!-- Global Search Bar -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="SEARCH ALL PDF NOTES (e.g., Physics, History)" onkeyup="filterSubjects()">
+            <button class="search-btn" onclick="filterSubjects()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+
+        <!-- Portal Body Layout -->
+        <div class="portal-grid">
+            <!-- Filter Sidebar -->
+            <aside class="filter-sidebar">
+                <div class="filter-group">
+                    <label for="subjectArea">Subject Area</label>
+                    <select id="subjectArea" class="filter-select" onchange="filterCategory(this.value)">
+                        <option value="all">All Subject Areas</option>
+                        <option value="stem">Sciences & STEM</option>
+                        <option value="humanities">Humanities & Arts</option>
+                        <option value="commerce">Economics & Business</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="academicLevel">Academic Level</label>
+                    <select id="academicLevel" class="filter-select">
+                        <option value="all">All Levels</option>
+                        <option value="highschool">High School</option>
+                        <option value="postgrad">Postgraduate</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="sortBy">Sort By</label>
+                    <select id="sortBy" class="filter-select">
+                        <option value="popular">Popularity</option>
+                        <option value="newest">Newest First</option>
+                        <option value="alphabetical">Alphabetical</option>
+                    </select>
+                </div>
+            </aside>
+
+            <!-- Subject Cards Grid -->
+            <main class="subjects-grid" id="subjectsContainer">
+
+                <!-- 1. Geography Card -->
+                <div class="subject-card card-geography" data-category="humanities" onclick="openChapterList('Geography', geographyChapters)">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fa-solid fa-earth-americas"></i></div>
+                        <span class="pdf-badge">15 PDFs</span>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="card-title">Geography</div>
+                        <div class="card-desc">Physical geography, climatology, oceanography & human systems</div>
+                    </div>
+                    <div class="action-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                <!-- 2. Mathematics Card -->
+                <div class="subject-card card-math" data-category="stem" onclick="openChapterList('Mathematics', mathChapters)">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fa-solid fa-atom"></i></div>
+                        <span class="pdf-badge">15 PDFs</span>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="card-title">Mathematics</div>
+                        <div class="card-desc">Calculus, differential equations, algebra & probability theory</div>
+                    </div>
+                    <div class="action-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                <!-- 3. History Card -->
+                <div class="subject-card card-history" data-category="humanities" onclick="openChapterList('History', historyChapters)">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fa-solid fa-landmark"></i></div>
+                        <span class="pdf-badge">12 PDFs</span>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="card-title">History</div>
+                        <div class="card-desc">Ancient civilizations, medieval kingdoms & modern struggle</div>
+                    </div>
+                    <div class="action-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                <!-- 4. Physics Card -->
+                <div class="subject-card card-physics" data-category="stem" onclick="openChapterList('Physics', physicsChapters)">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fa-solid fa-flask"></i></div>
+                        <span class="pdf-badge">8 PDFs</span>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="card-title">Physics</div>
+                        <div class="card-desc">Electrostatics, magnetism, optics & quantum mechanics</div>
+                    </div>
+                    <div class="action-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                <!-- 5. Biology Card -->
+                <div class="subject-card card-biology" data-category="stem" onclick="openChapterList('Biology', biologyChapters)">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fa-solid fa-dna"></i></div>
+                        <span class="pdf-badge">26 PDFs</span>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="card-title">Biology</div>
+                        <div class="card-desc">Cellular structures, molecular genetics & human physiology</div>
+                    </div>
+                    <div class="action-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                <!-- 6. Computer Science Card -->
+                <div class="subject-card card-cs" data-category="stem" onclick="openChapterList('Computer Science', csChapters)">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fa-solid fa-desktop"></i></div>
+                        <span class="pdf-badge">21 PDFs</span>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="card-title">Computer Science</div>
+                        <div class="card-desc">Data structures, algorithms, OOP concepts & database design</div>
+                    </div>
+                    <div class="action-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                <!-- 7. Economics Card -->
+                <div class="subject-card card-eco" data-category="commerce" onclick="openChapterList('Economics', ecoChapters)">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fa-solid fa-calculator"></i></div>
+                        <span class="pdf-badge">25 PDFs</span>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="card-title">Economics</div>
+                        <div class="card-desc">Microeconomics, macroeconomics & national income models</div>
+                    </div>
+                    <div class="action-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                <!-- 8. Sociology Card -->
+                <div class="subject-card card-sociology" data-category="humanities" onclick="openChapterList('Sociology', sociologyChapters)">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fa-solid fa-users"></i></div>
+                        <span class="pdf-badge">10 PDFs</span>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="card-title">Sociology</div>
+                        <div class="card-desc">Sociological theories, social structures & cultural changes</div>
+                    </div>
+                    <div class="action-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                <!-- 9. Literature Card -->
+                <div class="subject-card card-literature" data-category="humanities" onclick="openChapterList('Literature', literatureChapters)">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fa-solid fa-book"></i></div>
+                        <span class="pdf-badge">26 PDFs</span>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="card-title">Literature</div>
+                        <div class="card-desc">Classical poetry, prose summaries & drama analysis</div>
+                    </div>
+                    <div class="action-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+                <!-- 10. Art History Card -->
+                <div class="subject-card card-art" data-category="humanities" onclick="openChapterList('Art History', artChapters)">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fa-solid fa-palette"></i></div>
+                        <span class="pdf-badge">13 PDFs</span>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="card-title">Art History</div>
+                        <div class="card-desc">Renaissance, classical movements & modern visual art</div>
+                    </div>
+                    <div class="action-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- CHAPTER-WISE PDF SELECTION MODAL -->
+    <div class="modal-overlay" id="chapterModalOverlay">
+        <div class="chapter-modal">
+            <div class="modal-header">
+                <h2 id="modalSubjectTitle"><i class="fa-solid fa-book-open"></i> Subject Name</h2>
+                <button class="close-modal-btn" onclick="closeChapterModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 15px; color: var(--text-muted); font-size: 0.9rem;">
+                    Select a chapter to open or view the notes PDF online:
+                </p>
+                <div class="chapter-list" id="chapterListContainer">
+                    <!-- Chapter items injected dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Handlers & Data -->
+    <script>
+        const geographyChapters = [
+            { id: 1, title: "Chapter 1: Physical Geography & Geomorphology", pages: "18 Pages", file: "geography_ch1.pdf" },
+            { id: 2, title: "Chapter 2: Climatology & Atmosphere Systems", pages: "24 Pages", file: "geography_ch2.pdf" },
+            { id: 3, title: "Chapter 3: Oceanography & Marine Ecosystems", pages: "15 Pages", file: "geography_ch3.pdf" },
+            { id: 4, title: "Chapter 4: Human & Economic Geography", pages: "20 Pages", file: "geography_ch4.pdf" }
+        ];
+
+        const historyChapters = [
+            { id: 1, title: "Chapter 1: Ancient Civilizations & Indus Valley", pages: "18 Pages", file: "history_ch1.pdf" },
+            { id: 2, title: "Chapter 2: Medieval Kingdoms & Empires", pages: "22 Pages", file: "history_ch2.pdf" },
+            { id: 3, title: "Chapter 3: Modern Era & Freedom Struggle", pages: "30 Pages", file: "history_ch3.pdf" }
+        ];
+
+        const physicsChapters = [
+            { id: 1, title: "Chapter 1: Electric charges and field", pages: "22 Pages", file: "physics_ch1.pdf" },
+            { id: 2, title: "Chapter 2: Electrostatic potential and Capacitance", pages: "18 Pages", file: "physics_ch2.pdf" },
+            { id: 3, title: "Chapter 3: Current electricity", pages: "25 Pages", file: "physics_ch3.pdf" }
+        ];
+
+        const mathChapters = [
+            { id: 1, title: "Chapter 1: Calculus & Differential Equations", pages: "25 Pages", file: "math_ch1.pdf" },
+            { id: 2, title: "Chapter 2: Linear Algebra & Matrices", pages: "19 Pages", file: "math_ch2.pdf" }
+        ];
+
+        const biologyChapters = [
+            { id: 1, title: "Chapter 1: Cell Biology & Biomolecules", pages: "20 Pages", file: "biology_ch1.pdf" },
+            { id: 2, title: "Chapter 2: Genetics & Molecular Inheritance", pages: "32 Pages", file: "biology_ch2.pdf" }
+        ];
+
+        const csChapters = [
+            { id: 1, title: "Chapter 1: Data Structures & Algorithms", pages: "35 Pages", file: "cs_ch1.pdf" },
+            { id: 2, title: "Chapter 2: Object Oriented Programming (C++/Java)", pages: "28 Pages", file: "cs_ch2.pdf" }
+        ];
+
+        const ecoChapters = [
+            { id: 1, title: "Chapter 1: Microeconomics - Demand & Supply", pages: "16 Pages", file: "eco_ch1.pdf" },
+            { id: 2, title: "Chapter 2: Macroeconomics - National Income", pages: "22 Pages", file: "eco_ch2.pdf" }
+        ];
+
+        const sociologyChapters = [
+            { id: 1, title: "Chapter 1: Introduction to Sociological Theories", pages: "14 Pages", file: "soc_ch1.pdf" }
+        ];
+
+        const literatureChapters = [
+            { id: 1, title: "Chapter 1: Classical Poetry & Prose Summaries", pages: "15 Pages", file: "lit_ch1.pdf" }
+        ]; 
+
+        const artChapters = [
+            { id: 1, title: "Chapter 1: Renaissance & Modern Art Movements", pages: "21 Pages", file: "file:///D:/pri3/leph201.pdf" }
+        ];
+
+        function openChapterList(subjectName, chapters) {
+            document.getElementById('modalSubjectTitle').innerHTML = `<i class="fa-solid fa-book-open"></i> ${subjectName} - Notes`;
+            const container = document.getElementById('chapterListContainer');
+            container.innerHTML = '';
+
+            if (!chapters || chapters.length === 0) {
+                container.innerHTML = '<p style="color: #888;">No chapter PDFs uploaded yet.</p>';
+            } else {
+                chapters.forEach(ch => {
+                    const itemHtml = `
+                        <div class="chapter-item">
+                            <div class="chapter-details">
+                                <h4>${ch.title}</h4>
+                                <p><i class="fa-regular fa-file-pdf" style="color: #e53e3e;"></i> PDF Notes • ${ch.pages}</p>
+                            </div>
+                            <div class="chapter-actions">
+                                <a href="#" class="btn-view-pdf" onclick="viewPDF('${ch.file}')">
+                                    <i class="fa-solid fa-eye"></i> Open PDF
+                                </a>
+                                <a href="#" class="btn-download-pdf" onclick="downloadPDF('${ch.title}', '${ch.file}')">
+                                    <i class="fa-solid fa-download"></i> Save
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += itemHtml;
+                });
+            }
+            document.getElementById('chapterModalOverlay').classList.add('active');
+        }
+
+        function closeChapterModal() {
+            document.getElementById('chapterModalOverlay').classList.remove('active');
+        }
+
+        function viewPDF(filePath) {
+            window.open(filePath, '_blank');
+        }
+
+        function downloadPDF(chapterTitle, filePath) {
+            alert(`Starting download for: ${chapterTitle}\nFile: ${filePath}`);
+        }
+
+        function filterSubjects() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.querySelectorAll('.subject-card');
+            cards.forEach(card => {
+                let title = card.querySelector('.card-title').innerText.toLowerCase();
+                let desc = card.querySelector('.card-desc').innerText.toLowerCase();
+                if (title.includes(input) || desc.includes(input)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        function filterCategory(category) {
+            let cards = document.querySelectorAll('.subject-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
