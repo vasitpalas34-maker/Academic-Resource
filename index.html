@@ -38,10 +38,14 @@
             margin: 0 auto;
         }
 
-        /* Header Title */
+        /* Header Title & Top Navigation */
         .portal-header {
+            position: relative;
             text-align: center;
             margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .portal-header h1 {
@@ -50,6 +54,31 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        /* Login Button Styling */
+        .login-btn {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--accent-orange);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .login-btn:hover {
+            background: #d85c12;
+            transform: translateY(-50%) translateY(-2px);
         }
 
         /* Search Bar */
@@ -398,6 +427,14 @@
         }
 
         @media (max-width: 768px) {
+            .portal-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .login-btn {
+                position: static;
+                transform: none;
+            }
             .portal-grid { grid-template-columns: 1fr; }
             .chapter-item { flex-direction: column; align-items: flex-start; gap: 10px; }
             .chapter-actions { width: 100%; }
@@ -408,9 +445,12 @@
 <body>
 
     <div class="portal-container">
-        <!-- Main Portal Header -->
+        <!-- Main Portal Header with Top Right Login Link -->
         <header class="portal-header">
             <h1>NCERT Textbooks & PDF Notes</h1>
+            <a href="1.html" class="login-btn">
+                <i class="fa-solid fa-user"></i> Login
+            </a>
         </header>
 
         <!-- Global Search Bar -->
