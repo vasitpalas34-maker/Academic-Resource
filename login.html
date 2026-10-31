@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Academic Resources Portal</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-blue: #0b3c5d;
+            --accent-orange: #f36f21;
+            --bg-overlay: rgba(11, 28, 44, 0.88);
+            --card-bg: #ffffff;
+            --text-dark: #1d2d3d;
+            --text-muted: #627182;
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                        url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 440px;
+            text-align: center;
+        }
+
+        .login-header {
+            margin-bottom: 25px;
+            color: #ffffff;
+        }
+
+        .login-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .login-header p {
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 35px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: left;
+        }
+
+        .icon-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .icon-header i {
+            font-size: 2.2rem;
+            color: var(--primary-blue);
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i.input-icon {
+            position: absolute;
+            left: 14px;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .input-wrapper i.toggle-password {
+            position: absolute;
+            right: 14px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 14px 12px 40px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            color: var(--text-dark);
+            transition: border-color 0.2s;
+        }
+
+        .input-wrapper input:focus {
+            border-color: var(--primary-blue);
+        }
+
+        .action-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+
+        .btn-submit {
+            background: var(--accent-orange);
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-submit:hover {
+            background: #d85c12;
+        }
+
+        .forgot-link {
+            color: var(--primary-blue);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 25px 0;
+        }
+
+        .signup-section {
+            text-align: center;
+        }
+
+        .signup-section p {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .btn-signup {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--accent-orange);
+            border-radius: 25px;
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-signup:hover {
+            background: var(--accent-orange);
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <header class="login-header">
+            <h1>NCERT Textbooks</h1>
+            <p>Academic Resources Portal</p>
+        </header>
+
+        <div class="login-card">
+            <div class="icon-header">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            
+            <h2 class="login-title">Secure Login to Your Portal</h2>
+
+            <form action="pri5.html" method="GET">
+                <div class="form-group">
+                    <label for="username">Email Address or Username</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user input-icon"></i>
+                        <input type="text" id="username" placeholder="your@email.com or username" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" id="password" placeholder="Password" required>
+                        <i class="fa-solid fa-eye-slash toggle-password" onclick="togglePasswordVisibility()"></i>
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <button type="submit" class="btn-submit">
+                        LOG IN NOW <i class="fa-solid fa-right-to-bracket"></i>
+                    </button>
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+                </div>
+            </form>
+
+            <div class="divider"></div>
+
+            <div class="signup-section">
+                <p>Need an account?</p>
+                <!-- Hyperlink redirecting to pri5.html -->
+                <a href="pri5.html" class="btn-signup">SIGN IN / CREATE ACCOUNT</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const icon = document.querySelector('.toggle-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        }
+    </script>
+</body>
+</html>
