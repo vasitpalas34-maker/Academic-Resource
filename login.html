@@ -215,8 +215,14 @@
             background: var(--accent-orange);
             color: #ffffff;
         }
+
+        #auth-message {
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 500;
+        }
     </style>
-   
 </head>
 <body>
 
@@ -233,12 +239,12 @@
             
             <h2 class="login-title">Secure Login to Your Portal</h2>
 
-            <form>
+            <form id="login-form">
                 <div class="form-group">
-                    <label for="username">Email Address or Username</label>
+                    <label for="username">Email Address</label>
                     <div class="input-wrapper">
-                        <i class="fa-solid fa-user input-icon"></i>
-                        <input type="text" id="username" placeholder="your@email.com or username" required>
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input type="email" id="username" placeholder="your@email.com" required>
                     </div>
                 </div>
 
@@ -259,6 +265,8 @@
                 </div>
             </form>
 
+            <div id="auth-message"></div>
+
             <div class="divider"></div>
 
             <div class="signup-section">
@@ -269,6 +277,7 @@
         </div>
     </div>
 
+    <!-- Password visibility toggle script -->
     <script>
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById('password');
@@ -284,6 +293,48 @@
                 icon.classList.add('fa-eye-slash');
             }
         }
+    </script>
+
+    <!-- Supabase Authentication Script -->
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        // Replace these with your actual Supabase Project URL and Anon/Public Key
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const loginForm = document.getElementById('login-form');
+        const authMessage = document.getElementById('auth-message');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            authMessage.style.color = 'var(--text-muted)';
+            authMessage.textContent = 'Logging in...';
+
+            // Call Supabase sign-in method
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                authMessage.style.color = 'red';
+                authMessage.textContent = 'Error: ' + error.message;
+            } else {
+                authMessage.style.color = 'green';
+                authMessage.textContent = 'Login successful! Redirecting...';
+                
+                // Redirect to main page after 1 second
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            }
+        });
     </script>
 </body>
 </html>
